@@ -1,5 +1,9 @@
+import vehiculos.*
+import pedidos.*
+
 class Dependencia {
 	var flota = []	
+	var pedidos = []
 	var property cantidadDeEmpleados
 	
 	method agregarAFlota(vehiculo) { flota.add(vehiculo) }
@@ -44,5 +48,18 @@ class Dependencia {
 	//  la condición es que la dependencia tenga al menos 40 empleados y 5 rodados
 	method esGrande() {
 		return cantidadDeEmpleados >= 40 and flota.size() >= 5
+	}
+	
+	method pedidosMalos()
+	{
+		pedidos.filter({ pedido => not flota.any({auto => pedido.loPuedeHacer(auto)})})
+	}
+	method esColorImposible(color)
+	{
+		return pedidos.all({pedido => pedido.colorIncompatible() == color})
+	}
+	method relajarPedidos()
+	{
+		pedidos.forEach({pedido => pedido.relajar()})
 	}
 }
